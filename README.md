@@ -25,43 +25,41 @@ WINDOWS( [baixar o XAMPP](https://www.apachefriends.org/pt_br/index.html))  ou  
 
 E com o auxílio de um software de gerenciamento de banco de dados, por exemplo o [Dbeaver](https://dbeaver.io/download/), irá criar uma nova conexão e um novo banco de dados utilizando o Script a seguir:
 
+OBS: DEVIDO A ALGUMAS INCONSISTENCIAS ENTRE OS DOMAIN E O CREATE TABLE QUE HAVIA NO README, SEGUI COMO ESTAVA DESCRITO NOS DOMAIN, DEVIDO A ISSO PEÇO QUE GERE O BANCO DA FORMA DESCRITA ABAIXO:
+
+PARA GERAR O BANCO DE DADOS É POSSIVEL APENAS ALTERAR NO ARQUIVO 'application.properties'
+O USERNAME E SENHA E EM SEGUIDA INICIALIZAR O PROJETO QUE O BANCO SERÁ CRIADO JUNTO COM A INICIALIZAÇÃO,
+COM TODAS AS TABELAS NECESSARIAS, OU DEIXO ABAIXO OS COMANDOS DE CRIAÇÃO DO BANCO:
+
 ```mysql
 
 CREATE TABLE `service_type` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `id` bigint NOT NULL,
+  `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `service_type` VALUES (1,'Serviço A'),(2,'Serviço B'),(3,'Serviço C');
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `workplace` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `finish_date` timestamp NULL DEFAULT NULL,
-  `service_type_id` bigint(20) NOT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `finish_date` datetime(6) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start_date` datetime(6) NOT NULL,
+  `service_type_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `workplace_FK` (`service_type_id`) USING BTREE,
-  CONSTRAINT `serviceType_FK` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `workplace` VALUES (1,'Posto A','2022-10-11 23:20:00',NULL,1),(2,'Posto B','2022-10-11 23:20:00',NULL,2),(3,'Posto C','2022-10-11 23:20:00',NULL,3);
-
+  KEY `FKtg1c2ibqafe1ic1x39w2caqif` (`service_type_id`),
+  CONSTRAINT `FKtg1c2ibqafe1ic1x39w2caqif` FOREIGN KEY (`service_type_id`) REFERENCES `service_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `person` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `workplace_id` bigint(20) NOT NULL,
-  `admission_date` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `demission_date` timestamp NULL DEFAULT NULL,
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `admission_date` datetime(6) DEFAULT NULL,
+  `demission_date` datetime(6) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `workplace_id` bigint NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `workplace_FK` (`workplace_id`),
-  CONSTRAINT `workplace_FK` FOREIGN KEY (`workplace_id`) REFERENCES `workplace` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `person` VALUES (1,'Lucas A',1,'2022-11-10 23:20:00',NULL),(2,'Thiago B',1,'2022-11-10 23:20:00',NULL);
+  KEY `FKao02k0uo9bxwhf805iuu57qnt` (`workplace_id`),
+  CONSTRAINT `FKao02k0uo9bxwhf805iuu57qnt` FOREIGN KEY (`workplace_id`) REFERENCES `workplace` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 ```
 
