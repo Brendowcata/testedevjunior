@@ -132,8 +132,9 @@ public class PersonService {
                 }
 
                 personRepository.workplaceTransfer(id, workplaceId);
+                Optional<Person> newPerson = personRepository.getById(id);
 
-                return ResponseEntity.ok().build();
+                return ResponseEntity.ok(new PersonWorkplaceDto(newPerson.get()));
             }
 
         } catch (Exception e) {
